@@ -1,0 +1,43 @@
+records:
+  diags:
+    debug:
+      enabled: 1
+      tags: "authproxy|dns|http"
+    output:
+      diag: S
+      debug: S
+      status: S
+      note: S
+      warning: S
+      error: S
+  exec_thread:
+    autoconfig:
+      enabled: 0
+    limit: 2
+  accept_threads: 1
+  task_threads: 1
+  cache:
+    ram_cache:
+      size: 0
+  hostdb:
+    ip_resolve: "ipv4;only"
+  http:
+    cache:
+      http: 0
+    connect_attempts_max_retries: 1
+    connect_attempts_timeout: 10
+    doc_in_cache_skip_dns: 0
+    server_ports: "8080"
+    transaction_no_activity_timeout_in: 30
+    transaction_no_activity_timeout_out: 30
+  log:
+    logging_enabled: 1
+    max_space_mb_for_logs: 32
+  net:
+    connections_throttle: 256
+    max_connections_in: 256
+  reverse_proxy:
+    enabled: 1
+  url_remap:
+    pristine_host_hdr: 0
+    remap_required: 1

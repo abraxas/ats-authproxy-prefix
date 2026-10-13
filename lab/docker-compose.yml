@@ -1,0 +1,58 @@
+name: ats-authproxy-prefix
+
+services:
+  ats:
+    image: ats-10.2.0-lab:local
+    pull_policy: never
+    init: true
+    restart: "no"
+    command: ["traffic_server", "-T", "authproxy|dns|http"]
+    environment:
+      PATH: /opt/ats/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+    ports:
+      - "127.0.0.1:18760:8080"
+    volumes:
+      - ./config/remap.config:/opt/ats/etc/trafficserver/remap.config:ro
+      - ./config/records.yaml:/opt/ats/etc/trafficserver/records.yaml:ro
+      - ./config/storage.config:/opt/ats/etc/trafficserver/storage.config:ro
+      - ./config/plugin.config:/opt/ats/etc/trafficserver/plugin.config:ro
+      - ./config/ip_allow.yaml:/opt/ats/etc/trafficserver/ip_allow.yaml:ro
+    depends_on:
+      - origin
+      - auth
+    labels:
+      lab: ats-authproxy-prefix
+
+  origin:
+    image: python:3.12-slim
+    pull_policy: missing
+    init: true
+    restart: "no"
+    command: ["python3", "/lab/origin.py"]
+    environment:
+      PYTHONUNBUFFERED: "1"
+      ORIGIN_HOST: "0.0.0.0"
+      ORIGIN_PORT: "8080"
+    ports:
+      - "127.0.0.1:18761:8080"
+    volumes:
+      - ./origin.py:/lab/origin.py:ro
+    labels:
+      lab: ats-authproxy-prefix
+
+  auth:
+    image: python:3.12-slim
+    pull_policy: missing
+    init: true
+    restart: "no"
+    command: ["python3", "/lab/auth.py"]
+    environment:
+      PYTHONUNBUFFERED: "1"
+      AUTH_HOST: "0.0.0.0"
+      AUTH_PORT: "9000"
+    ports:
+      - "127.0.0.1:18762:9000"
+    volumes:
+      - ./auth.py:/lab/auth.py:ro
+    labels:
+      lab: ats-authproxy-prefix
