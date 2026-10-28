@@ -13,6 +13,10 @@
   &nbsp;·&nbsp;
   <a href="https://github.com/abraxas/ats-authproxy-prefix">ats-authproxy-prefix</a>
 </p>
+<p align="center">
+  Write-up: <a href="https://abraxaslabs.tech/research/ats-authproxy-prefix"><strong>https://abraxaslabs.tech/research/ats-authproxy-prefix</strong></a>
+</p>
+
 
 # ats-authproxy-prefix
 
